@@ -38,12 +38,14 @@ public class MyAnnotatedClass {
         return result;
     }
 
-    // Методы без аннотаций (не должны вызываться)
+    // Метод без аннотации
     protected void protectedMethod3() {
-        System.out.println("Этот метод не должен отображаться");
+        System.out.println("protected метод без аннотации");
     }
 
-    private void privateMethod3() {
-        System.out.println("Этот метод не должен отображаться");
+    // Метод без аннотации с параметрами
+    protected void protectedMethod4(int x) {
+        System.out.println("protected метод без аннотации с параметром x = " + x);
     }
+
 }

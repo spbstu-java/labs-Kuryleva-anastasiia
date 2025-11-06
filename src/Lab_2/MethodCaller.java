@@ -1,6 +1,7 @@
 package Lab_2;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public class MethodCaller {
     public void callAnnotatedMethods(MyAnnotatedClass obj) {
@@ -9,30 +10,48 @@ public class MethodCaller {
 
         for (Method method : methods) {
             // Проверяем, есть ли аннотация @CallCounter
-            if (method.isAnnotationPresent(CallCounter.class)) {
-                // Получаем аннотацию
-                CallCounter annotation = method.getAnnotation(CallCounter.class);
-                int callCount = annotation.value();
 
-                // Делаем метод доступным (для private и protected)
-                method.setAccessible(true);
+            if(!Modifier.isPublic(method.getModifiers())) {
+                if (method.isAnnotationPresent(CallCounter.class)) {
+                    // Получаем аннотацию
+                    CallCounter annotation = method.getAnnotation(CallCounter.class);
+                    int callCount = annotation.value();
 
-                System.out.println("\n=== Метод: " + method.getName() +
-                        ", количество вызовов: " + callCount + " ===");
+                    // Делаем метод доступным (для private и protected)
+                    method.setAccessible(true);
 
-                // Вызываем метод указанное количество раз
-                for (int i = 1; i <= callCount; i++) {
+                    System.out.println("\n=== Метод: " + method.getName() +
+                            ", количество вызовов: " + callCount + " ===");
+
+                    // Вызываем метод указанное количество раз
+                    for (int i = 1; i <= callCount; i++) {
+                        try {
+                            // Автоматически создаем параметры
+                            Object[] params = generateParameters(method.getParameterTypes());
+
+                            System.out.print("Вызов " + i + ": ");
+                            Object result = method.invoke(obj, params);
+
+                        } catch (Exception e) {
+                            System.out.println("Ошибка при вызове: " + e.getMessage());
+                        }
+                    }
+                }else {
+                    // Делаем метод доступным (для private и protected)
+                    method.setAccessible(true);
+
+                    System.out.println("\n=== Метод: " + method.getName());
+
                     try {
                         // Автоматически создаем параметры
                         Object[] params = generateParameters(method.getParameterTypes());
-
-                        System.out.print("Вызов " + i + ": ");
                         Object result = method.invoke(obj, params);
 
                     } catch (Exception e) {
                         System.out.println("Ошибка при вызове: " + e.getMessage());
                     }
                 }
+
             }
         }
     }
