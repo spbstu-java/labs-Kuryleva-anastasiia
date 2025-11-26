@@ -1,11 +1,13 @@
 package Lab_2;
 
 public class MyAnnotatedClass {
-    // Публичные методы (без аннотаций)
+    // Публичный метод (без аннотации)
     public void publicMethod1(String text) {
         System.out.println("Public метод 1: " + text);
     }
 
+    // Публичный метод с аннотацией
+    @CallCounter(1)
     public int publicMethod2(int a, int b) {
         int result = a + b;
         System.out.println("Public метод 2: " + a + " + " + b + " = " + result);

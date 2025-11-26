@@ -36,22 +36,7 @@ public class MethodCaller {
                             System.out.println("Ошибка при вызове: " + e.getMessage());
                         }
                     }
-                }else {
-                    // Делаем метод доступным (для private и protected)
-                    method.setAccessible(true);
-
-                    System.out.println("\n=== Метод: " + method.getName());
-
-                    try {
-                        // Автоматически создаем параметры
-                        Object[] params = generateParameters(method.getParameterTypes());
-                        Object result = method.invoke(obj, params);
-
-                    } catch (Exception e) {
-                        System.out.println("Ошибка при вызове: " + e.getMessage());
-                    }
                 }
-
             }
         }
     }
